@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEKTON | Engineered to Shape Perfection</title>
+    <meta name="description" content="TEKTON is engineered to shape perfection in precision manufacturing, delivering high-quality tooling and components for industrial excellence. Based in Coimbatore.">
+    
+    <!-- SEO: Open Graph -->
+    <meta property="og:title" content="TEKTON | Engineered to Shape Perfection">
+    <meta property="og:description" content="Precision manufacturing, delivering high-quality tooling and components for industrial excellence.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/hero_bg.png">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Favicon (inline SVG data URI) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-family='sans-serif' font-weight='bold' fill='%2300f0ff'>T</text></svg>">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* Registered custom properties for smooth color transitions */
+        @property --c-accent {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: #00f0ff;
+        }
+        @property --c-glow {
+            syntax: '<color>';
+            inherits: true;
+            initial-value: rgba(0, 240, 255, 0.4);
+        }
+
+        :root {
+            --c-primary: #0f0f11;
+            --c-accent: #00f0ff;
+            --c-glow: rgba(0, 240, 255, 0.4);
+            --c-text: #ffffff;
+            --c-text-muted: #a0a0a8;
+            --font-head: 'Bebas Neue', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+            --font-accent: 'Space Mono', monospace;
+            transition: --c-accent 1.2s ease, --c-glow 1.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--c-primary);
+            color: var(--c-text);
+            font-family: var(--font-body);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            cursor: none;
+        }
+
+        /* Focus styles for accessibility */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--c-accent);
+            outline-offset: 3px;
+        }
+
+        /* ========== LOADING SCREEN ========== */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #050505;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loader-text {
+            font-family: var(--font-head);
+            font-size: 4rem;
+            letter-spacing: 0.3em;
+            background: linear-gradient(90deg, #222, #fff, #222);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine 1.5s linear infinite;
+        }
+        .loader-sub {
+            font-family: var(--font-accent);
+            font-size: 0.7rem;
+            color: #444;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+        .progress-bar {
+            width: 200px;
+            height: 2px;
+            background: #1a1a1a;
+            margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1px;
+        }
+        .progress {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--c-accent), #fff);
+            transition: width 0.15s;
+        }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* ========== CUSTOM CURSOR ========== */
+        #cursor-dot, #cursor-circle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            will-change: left, top;
+        }
+        #cursor-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--c-accent);
+        }
+        #cursor-circle {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255,255,255,0.25);
+            transition: width 0.25s, height 0.25s, border-color 0.3s, background 0.3s;
+        }
+        body.cursor-hover #cursor-circle {
+            width: 50px;
+            height: 50px;
+            border-color: var(--c-accent);
+            background: rgba(0, 240, 255, 0.08);
+        }
+
+        /* Hide custom cursor on touch devices */
+        @media (pointer: coarse) {
+            #cursor-dot, #cursor-circle { display: none; }
+            body { cursor: auto; }
+        }
+
+        /* ========== BACKGROUND TRACK ========== */
+        #bg-track {
+            position: fixed;
+            top: 0; left: 0;
+            width: 500vw;
+            height: 100vh;
+            display: flex;
+            z-index: -1;
+            will-change: transform;
+        }
+        .bg-slide {
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            will-change: transform;
+        }
+        .bg-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.75) 100%);
+        }
+
+        /* Ken Burns continuous zoom */
+        @keyframes kenburns {
+            0%   { transform: scale(1.0); }
+            50%  { transform: scale(1.12); }
+            100% { transform: scale(1.0); }
+        }
+        .bg-slide.active-bg {
+            animation: kenburns 20s ease-in-out infinite;
+        }
+
+        /* ========== CORNER BRACKETS ========== */
+        .ui-brackets {
+            position: fixed;
+            inset: 20px;
+            pointer-events: none;
+            z-index: 50;
+        }
+        .bracket {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: rgba(255,255,255,0.15);
+            border-style: solid;
+            transition: border-color 1.2s ease;
+        }
+        .bracket.tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+        .bracket.tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+        .bracket.bl { bottom: 30px; left: 0; border-width: 0 0 2px 2px; }
+        .bracket.br { bottom: 30px; right: 0; border-width: 0 2px 2px 0; }
+
+        /* ========== TICKER ========== */
+        .ticker {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 30px;
+            background: rgba(0,0,0,0.9);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+            font-family: var(--font-accent);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.3);
+            z-index: 60;
+            display: flex;
+            align-items: center;
+        }
+        .ticker-inner {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker-scroll 25s linear infinite;
+        }
+        .ticker-inner .accent { color: var(--c-accent); }
+        @keyframes ticker-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%);
+        }
+        .logo {
+            font-family: var(--font-head);
+            font-size: 2.2rem;
+            letter-spacing: 0.15em;
+            color: #fff;
+            text-shadow: 0 0 20px var(--c-glow);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-family: var(--font-accent);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .nav-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 6px;
+            transition: color 0.4s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--c-accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        .nav-links a:hover,
+        .nav-links a.active { color: #fff; }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            padding: 8px;
+            z-index: 200;
+        }
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: #fff;
+            transition: transform 0.3s, opacity 0.3s;
+            display: block;
+        }
+        .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ========== SLIDE INDICATOR ========== */
+        .slide-indicator {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 80;
+        }
+        .slide-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: transparent;
+            transition: all 0.5s ease;
+            cursor: none;
+            padding: 0;
+        }
+        .slide-dot.active {
+            background: var(--c-accent);
+            border-color: var(--c-accent);
+            box-shadow: 0 0 12px var(--c-glow);
+            transform: scale(1.3);
+        }
+
+        /* ========== CONTENT WRAPPER ========== */
+        #content-wrapper {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            will-change: transform;
+        }
+
+        .section {
+            width: 100vw;
+            height: 100vh;
+            padding: 110px 60px 50px 60px;
+            display: flex;
+            position: relative;
+        }
+
+        /* ========== SLIDE 1: HOME ========== */
+        #home .home-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            height: 100%;
+            padding-bottom: 30px;
+        }
+        .hero-text { max-width: 60%; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            font-family: var(--font-accent);
+            font-size: 0.75rem;
+            margin-bottom: 30px;
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.1em;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--c-accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--c-glow);
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { box-shadow: 0 0 0 0 var(--c-glow); }
+            50%  { box-shadow: 0 0 0 8px transparent; }
+        }
+
+        .headline {
+            font-family: var(--font-head);
+            font-size: clamp(4rem, 8vw, 8.5rem);
+            line-height: 0.9;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+        }
+        .hl-line1 { color: #fff; }
+        .hl-line2 {
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(255,255,255,0.7);
+        }
+        .hl-line3 {
+            background: linear-gradient(90deg, #fff 20%, var(--c-accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-family: var(--font-body);
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--c-text-muted);
+            margin-bottom: 40px;
+            max-width: 480px;
+            line-height: 1.5;
+        }
+
+        .cta-group { display: flex; gap: 15px; flex-wrap: wrap; }
+
+        .btn {
+            font-family: var(--font-accent);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 14px 28px;
+            background: transparent;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--c-accent);
+            transition: left 0.35s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: -1;
+        }
+        .btn:hover::before { left: 0; }
+        .btn:hover { border-color: var(--c-accent); color: #000; }
+
+        .btn-outline {
+            border-color: var(--c-accent);
+            color: var(--c-accent);
+        }
+        .btn-outline::before { display: none; }
+        .btn-outline:hover {
+            background: rgba(0, 240, 255, 0.1);
+            color: #fff;
+        }
+
+        .stats-card {
+            background: rgba(10, 10, 12, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            border-left: 2px solid var(--c-accent);
+            min-width: 280px;
+        }
+        .stat-item h4 {
+            font-family: var(--font-head);
+            font-size: 2.8rem;
+            color: #fff;
+            line-height: 1;
+        }
+        .stat-item p {
+            font-family: var(--font-accent);
+            font-size: 0.65rem;
+            color: var(--c-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 4px;
+        }
+
+        /* ========== SLIDE 2: ABOUT ========== */
+        #about {
+            justify-content: center;
+            align-items: center;
+        }
+        .about-text {
+            font-family: var(--font-head);
+            font-size: clamp(2rem, 4.5vw, 4.5rem);
+            text-align: center;
+            line-height: 1.15;
+            max-width: 80%;
+            color: rgba(255,255,255,0.25);
+        }
+        .about-text span {
+            color: #fff;
+            text-shadow: 0 0 15px var(--c-glow);
+            transition: color 0.5s, text-shadow 0.5s;
+        }
+
+        /* ========== SLIDE 3: PRODUCTS ========== */
+        #products {
+            flex-direction: column;
+            justify-content: center;
+        }
+        .section-title {
+            font-family: var(--font-head);
+            font-size: clamp(3rem, 6vw, 6rem);
+            margin-bottom: 40px;
+            color: rgba(255,255,255,0.08);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+            position: relative;
+        }
+        .section-title::after {
+            content: attr(data-title);
+            position: absolute;
+            left: 0; top: 0;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--c-accent);
+            clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .section.active .section-title::after {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            width: 100%;
+            max-width: 1000px;
+        }
+        .product-item {
+            background: rgba(0,0,0,0.75);
+            padding: 35px 35px 35px 40px;
+            font-family: var(--font-head);
+            font-size: 2.2rem;
+            transition: background 0.3s, padding-left 0.3s, color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-item::before {
+            content: '→';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            color: var(--c-accent);
+            font-size: 1.2rem;
+            transition: opacity 0.3s, left 0.3s;
+        }
+        .product-item:hover {
+            background: rgba(20,20,25,0.95);
+            padding-left: 55px;
+            color: var(--c-accent);
+        }
+        .product-item:hover::before {
+            opacity: 1;
+            left: 20px;
+        }
+
+        /* ========== SLIDE 4: CLIENTS ========== */
+        #clients {
+            flex-direction: column;
+            justify-content: center;
+            padding-left: 80px;
+        }
+        .client-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .client-item {
+            font-family: var(--font-head);
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            color: rgba(255,255,255,0.15);
+            transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
+            position: relative;
+            padding-left: 50px;
+        }
+        .client-item .num {
+            font-family: var(--font-accent);
+            font-size: 0.85rem;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.3;
+            color: var(--c-accent);
+            transition: opacity 0.3s;
+        }
+        .client-item:hover {
+            color: #fff;
+            transform: translateX(15px);
+            text-shadow: 0 0 20px var(--c-glow);
+        }
+        .client-item:hover .num { opacity: 1; }
+
+        /* ========== SLIDE 5: CONTACT ========== */
+        #contact {
+            flex-direction: column;
+            justify-content: center;
+        }
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .contact-info h3 {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            color: #fff;
+            margin-top: 25px;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+        .contact-info p {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            color: var(--c-text-muted);
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        .contact-info a {
+            color: var(--c-accent);
+            text-decoration: none;
+            font-family: var(--font-accent);
+            font-size: 1rem;
+            transition: opacity 0.3s;
+        }
+        .contact-info a:hover { opacity: 0.75; }
+
+        .contact-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .map-container {
+            width: 100%;
+            flex: 1;
+            min-height: 250px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .map-container iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(1) invert(0.92) hue-rotate(180deg);
+        }
+
+        .social-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            font-family: var(--font-head);
+            font-size: 1.2rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            letter-spacing: 0.05em;
+        }
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .whatsapp-btn {
+            background: #25D366;
+            color: #000;
+        }
+        .instagram-btn {
+            background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+        }
+
+        /* ========== RESPONSIVE ========== */
+
+        /* Tablets */
+        @media (max-width: 1200px) {
+            .headline { font-size: clamp(3.5rem, 7vw, 6.5rem); }
+            .stats-card { min-width: 220px; }
+        }
+
+        /* Mobile landscape & small tablets */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 75vw;
+                max-width: 300px;
+                height: 100vh;
+                background: rgba(8,8,10,0.98);
+                backdrop-filter: blur(25px);
+                -webkit-backdrop-filter: blur(25px);
+                flex-direction: column;
+                padding: 90px 30px 40px;
+                gap: 1.2rem;
+                transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+                border-left: 1px solid rgba(255,255,255,0.06);
+            }
+            .nav-links.open { right: 0; }
+            .nav-links a { font-size: 1rem; }
+
+            nav { padding: 15px 20px; }
+            .logo { font-size: 1.8rem; }
+
+            .section { padding: 70px 20px 40px 20px; }
+
+            /* Home section */
+            .home-content {
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: flex-start !important;
+                gap: 20px;
+                padding-bottom: 10px !important;
+            }
+            .hero-text { max-width: 100% !important; }
+
+            .badge {
+                padding: 5px 12px;
+                font-size: 0.65rem;
+                margin-bottom: 15px;
+            }
+            .headline {
+                font-size: 3.2rem;
+                margin-bottom: 12px;
+            }
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 20px;
+                max-width: 100%;
+                line-height: 1.4;
+            }
+            .cta-group { gap: 10px; }
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.7rem;
+            }
+
+            .stats-card {
+                min-width: unset;
+                width: 100%;
+                padding: 15px 20px;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+                border-left-width: 2px;
+            }
+            .stat-item h4 { font-size: 1.6rem; }
+            .stat-item p { font-size: 0.55rem; }
+
+            /* About */
+            .about-text {
+                max-width: 100%;
+                font-size: clamp(1.6rem, 5vw, 2.5rem);
+                line-height: 1.2;
+            }
+
+            /* Products */
+            .section-title {
+                font-size: clamp(2rem, 8vw, 3.5rem);
+                margin-bottom: 20px;
+            }
+            .product-grid { grid-template-columns: 1fr; }
+            .product-item {
+                font-size: 1.3rem;
+                padding: 20px 20px 20px 30px;
+            }
+            .product-item[style*="grid-column"] {
+                grid-column: auto !important;
+            }
+
+            /* Clients */
+            #clients { padding-left: 20px; }
+            .client-item {
+                font-size: 2rem;
+                padding-left: 35px;
+                gap: 8px;
+            }
+            .client-item .num { font-size: 0.7rem; }
+            .client-list { gap: 10px; }
+
+            /* Contact */
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .contact-info h3 { font-size: 1.4rem; margin-top: 15px; }
+            .contact-info p { font-size: 1rem; margin-bottom: 8px; }
+            .contact-info a { font-size: 0.85rem; }
+            .social-row { gap: 8px; margin-top: 15px; }
+            .social-btn {
+                padding: 10px 18px;
+                font-size: 1rem;
+            }
+            .map-container { min-height: 180px; }
+
+            /* UI elements */
+            .ui-brackets { display: none; }
+            .slide-indicator { right: 8px; gap: 10px; }
+            .slide-dot { width: 6px; height: 6px; }
+            .ticker { font-size: 0.6rem; height: 25px; }
+        }
+
+        /* Very small phones (iPhone SE, etc.) */
+        @media (max-width: 400px) {
+            nav { padding: 12px 15px; }
+            .logo { font-size: 1.5rem; letter-spacing: 0.1em; }
+
+            .section { padding: 55px 15px 30px 15px; }
+
+            .badge { margin-bottom: 10px; font-size: 0.6rem; }
+            .headline {
+                font-size: 2.6rem;
+                margin-bottom: 8px;
+                line-height: 0.85;
+            }
+            .subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+            .btn { padding: 9px 16px; font-size: 0.65rem; }
+
+            .stats-card {
+                padding: 12px 15px;
+                gap: 8px;
+            }
+            .stat-item h4 { font-size: 1.3rem; }
+            .stat-item p { font-size: 0.5rem; letter-spacing: 0; }
+
+            .about-text { font-size: 1.5rem; }
+
+            .section-title { font-size: 2rem; margin-bottom: 15px; }
+            .product-item { font-size: 1.1rem; padding: 15px 15px 15px 25px; }
+
+            #clients { padding-left: 15px; }
+            .client-item { font-size: 1.7rem; padding-left: 30px; }
+            .client-list { gap: 6px; }
+
+            .contact-info h3 { font-size: 1.2rem; margin-top: 10px; margin-bottom: 4px; }
+            .contact-info p { font-size: 0.9rem; line-height: 1.5; margin-bottom: 5px; }
+            .social-btn { padding: 8px 14px; font-size: 0.9rem; }
+            .map-container { min-height: 150px; }
+        }
+
+        /* Short screens (landscape phones) */
+        @media (max-height: 500px) {
+            .section { padding: 50px 20px 30px; }
+            .badge { display: none; }
+            .headline { font-size: 2.5rem; margin-bottom: 8px; }
+            .subtitle { font-size: 0.85rem; margin-bottom: 10px; }
+            .stats-card { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#home" id="skip-link" style="position:absolute;top:-100px;left:0;background:var(--c-accent);color:#000;padding:10px 20px;z-index:10000;font-family:var(--font-accent);transition:top 0.3s;" onfocus="this.style.top='0'" onblur="this.style.top='-100px'">Skip to Content</a>
+
+    <!-- Loading Screen -->
+    <div id="loader" role="status" aria-label="Loading">
+        <div class="loader-text">TEKTON</div>
+        <div class="loader-sub">Engineered to Shape Perfection</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div id="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-circle" aria-hidden="true"></div>
+
+    <!-- Backgrounds -->
+    <div id="bg-track" aria-hidden="true">
+        <div class="bg-slide active-bg" style="background-image:url('assets/hero_bg.png')"></div>
+        <div class="bg-slide" style="background-image:url('assets/industrial_bg.png')"></div>
+        <div class="bg-slide" style="background-image:url('assets/factory_bg.png')"></div>
+        <div class="bg-slide" style="background-image:url('assets/hero_bg.png')"></div>
+        <div class="bg-slide" style="background-image:url('assets/industrial_bg.png')"></div>
+    </div>
+
+    <!-- UI Overlays -->
+    <div class="ui-brackets" aria-hidden="true">
+        <div class="bracket tl"></div>
+        <div class="bracket tr"></div>
+        <div class="bracket bl"></div>
+        <div class="bracket br"></div>
+    </div>
+
+    <!-- Ticker -->
+    <div class="ticker" aria-hidden="true">
+        <div class="ticker-inner">
+            <span class="accent">TEKTON</span> &nbsp;•&nbsp; Precision Engineering &nbsp;•&nbsp; CNC Machining &nbsp;•&nbsp; Industrial Excellence &nbsp;•&nbsp; Tool Design &nbsp;•&nbsp; Press Tools &nbsp;•&nbsp; Jigs & Fixtures &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="accent">TEKTON</span> &nbsp;•&nbsp; Precision Engineering &nbsp;•&nbsp; CNC Machining &nbsp;•&nbsp; Industrial Excellence &nbsp;•&nbsp; Tool Design &nbsp;•&nbsp; Press Tools &nbsp;•&nbsp; Jigs & Fixtures &nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <!-- Slide Position Indicator -->
+    <div class="slide-indicator" aria-label="Slide navigation">
+        <button class="slide-dot active" data-slide="0" aria-label="Go to Home"></button>
+        <button class="slide-dot" data-slide="1" aria-label="Go to About"></button>
+        <button class="slide-dot" data-slide="2" aria-label="Go to Services"></button>
+        <button class="slide-dot" data-slide="3" aria-label="Go to Clients"></button>
+        <button class="slide-dot" data-slide="4" aria-label="Go to Contact"></button>
+    </div>
+
+    <!-- Main Navigation -->
+    <nav role="navigation" aria-label="Main navigation">
+        <div class="logo">TEKTON</div>
+        <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links">
+            <a href="#home" data-index="0" class="active">Home</a>
+            <a href="#about" data-index="1">About Us</a>
+            <a href="#products" data-index="2">Services</a>
+            <a href="#clients" data-index="3">Clients</a>
+            <a href="#contact" data-index="4">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Content Wrapper -->
+    <main id="content-wrapper">
+
+        <!-- Section 0: Home -->
+        <section class="section active" id="home">
+            <div class="home-content">
+                <div class="hero-text">
+                    <div class="badge"><div class="dot"></div> SINCE 2023</div>
+                    <h1 class="headline">
+                        <div class="hl-line1">ENGINEERED</div>
+                        <div class="hl-line2">TO SHAPE</div>
+                        <div class="hl-line3">PERFECTION</div>
+                    </h1>
+                    <p class="subtitle">Precision manufacturing, delivering high-quality tooling and components for industrial excellence.</p>
+                    <div class="cta-group">
+                        <a href="#products" class="btn" data-index="2">Explore Services</a>
+                        <a href="#contact" class="btn btn-outline" data-index="4">Contact Us</a>
+                    </div>
+                </div>
+                <div class="stats-wrapper">
+                    <div class="stats-card">
+                        <div class="stat-item">
+                            <h4>2023</h4>
+                            <p>Established</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>10+</h4>
+                            <p>Clients</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>CBE</h4>
+                            <p>Location</p>
+                        </div>
+                        <div class="stat-item">
+                            <h4>PVT</h4>
+                            <p>Limited</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: About -->
+        <section class="section" id="about">
+            <h2 class="about-text">
+                Tekton is <span>engineered</span> to shape <span>perfection</span> in precision manufacturing, delivering <span>high-quality</span> tooling and components for <span>industrial excellence</span>.
+            </h2>
+        </section>
+
+        <!-- Section 2: Products -->
+        <section class="section" id="products">
+            <h2 class="section-title" data-title="PRODUCTS & SERVICES">PRODUCTS & SERVICES</h2>
+            <div class="product-grid">
+                <div class="product-item">Tool Designing</div>
+                <div class="product-item">Press Tools & Dies</div>
+                <div class="product-item">Jigs & Fixtures</div>
+                <div class="product-item">Sheet Metal Components</div>
+                <div class="product-item" style="grid-column: 1 / -1;">CNC VMC & Machined Components</div>
+            </div>
+        </section>
+
+        <!-- Section 3: Clients -->
+        <section class="section" id="clients">
+            <h2 class="section-title" data-title="TRUSTED PARTNERS">TRUSTED PARTNERS</h2>
+            <div class="client-list">
+                <div class="client-item"><span class="num">01</span>CRI Pumps</div>
+                <div class="client-item"><span class="num">02</span>Bharani Hydraulics</div>
+                <div class="client-item"><span class="num">03</span>IIT Madras</div>
+                <div class="client-item"><span class="num">04</span>Metal Wave Engineering</div>
+                <div class="client-item"><span class="num">05</span>Techno Matrix</div>
+            </div>
+        </section>
+
+        <!-- Section 4: Contact -->
+        <section class="section" id="contact">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2 class="section-title" data-title="LET'S CONNECT" style="font-size:clamp(3rem,5vw,5rem);margin-bottom:15px;">LET'S CONNECT</h2>
+                    <h3>HEADQUARTERS</h3>
+                    <p>Door No. 6, SC No - 462,<br>Saradha Devi 2nd Street,<br>Rama Krishnapuram, Ganapathy,<br>Coimbatore, Tamil Nadu – 641006</p>
+                    <h3>REACH US</h3>
+                    <p>
+                        <a href="tel:+919159152031">+91 91591 52031</a><br>
+                        <a href="mailto:tektonpresstools@gmail.com">tektonpresstools@gmail.com</a>
+                    </p>
+                    <div class="social-row">
+                        <a href="https://wa.me/919159152031" target="_blank" rel="noopener" class="social-btn whatsapp-btn" aria-label="Chat on WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            WhatsApp
+                        </a>
+                        <a href="https://instagram.com/tektonpresstools" target="_blank" rel="noopener" class="social-btn instagram-btn" aria-label="Follow on Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-right">
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15664.128711422709!2d76.97401569999999!3d11.03621415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba8586cfca46fcd%3A0xe764619a9eb224a1!2sGanapathy%2C%20Coimbatore%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="TEKTON location on Google Maps"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        /* ============================
+         *  STATE & CONFIG
+         * ============================ */
+        const SLIDES = 5;
+        const TRANSITION_MS = 1200;
+        const COOLDOWN_MS = 1600;
+        let currentSlide = 0;
+        let isLocked = false;
+        let lastWheelTime = 0;
+        let rafId = null;
+        let mouseX = 0, mouseY = 0;
+
+        const palettes = [
+            { accent: '#00f0ff', glow: 'rgba(0,240,255,0.4)' },
+            { accent: '#ff003c', glow: 'rgba(255,0,60,0.4)' },
+            { accent: '#00ff73', glow: 'rgba(0,255,115,0.4)' },
+            { accent: '#ffea00', glow: 'rgba(255,234,0,0.4)' },
+            { accent: '#00f0ff', glow: 'rgba(0,240,255,0.4)' }
+        ];
+
+        /* ============================
+         *  DOM REFS
+         * ============================ */
+        const bgTrack = document.getElementById('bg-track');
+        const contentWrapper = document.getElementById('content-wrapper');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const slideDots = document.querySelectorAll('.slide-dot');
+        const sections = document.querySelectorAll('.section');
+        const bgSlides = document.querySelectorAll('.bg-slide');
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorCircle = document.getElementById('cursor-circle');
+        const hamburger = document.querySelector('.hamburger');
+        const navLinksContainer = document.querySelector('.nav-links');
+
+        /* ============================
+         *  LOADING
+         * ============================ */
+        (function initLoader() {
+            let p = 0;
+            const bar = document.getElementById('progress');
+            const tick = setInterval(() => {
+                p += Math.random() * 18 + 2;
+                if (p >= 100) {
+                    p = 100;
+                    bar.style.width = '100%';
+                    clearInterval(tick);
+                    setTimeout(() => {
+                        document.getElementById('loader').classList.add('hidden');
+                        goToSlide(0, true);
+                    }, 400);
+                } else {
+                    bar.style.width = p + '%';
+                }
+            }, 90);
+        })();
+
+        /* ============================
+         *  SLIDE ENGINE
+         * ============================ */
+        function goToSlide(index, instant = false) {
+            if (index < 0 || index >= SLIDES || index === currentSlide && !instant) return;
+            if (isLocked && !instant) return;
+
+            isLocked = true;
+            currentSlide = index;
+            const pal = palettes[index];
+
+            // Color transitions via @property
+            document.documentElement.style.setProperty('--c-accent', pal.accent);
+            document.documentElement.style.setProperty('--c-glow', pal.glow);
+
+            // Transforms
+            const dur = instant ? '0s' : `${TRANSITION_MS}ms`;
+            const ease = 'cubic-bezier(0.77, 0, 0.175, 1)';
+
+            bgTrack.style.transition = `transform ${dur} ${ease}`;
+            contentWrapper.style.transition = `transform ${dur} ${ease}`;
+
+            if (instant) {
+                bgTrack.offsetHeight; // forced reflow
+            }
+
+            bgTrack.style.transform = `translateX(-${index * 100}vw)`;
+            contentWrapper.style.transform = `translateY(-${index * 100}vh)`;
+
+            // Ken Burns: only animate the active bg slide
+            bgSlides.forEach((s, i) => {
+                s.classList.toggle('active-bg', i === index);
+            });
+
+            // Nav active state
+            navLinks.forEach((a, i) => a.classList.toggle('active', i === index));
+
+            // Slide dots
+            slideDots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+            // Section active state (for clip-path animation etc.)
+            sections.forEach((s, i) => s.classList.toggle('active', i === index));
+
+            // Bracket color
+            document.querySelectorAll('.bracket').forEach(b => {
+                b.style.borderColor = `${pal.accent}33`;
+            });
+
+            setTimeout(() => { isLocked = false; }, instant ? 50 : COOLDOWN_MS);
+        }
+
+        /* ============================
+         *  CUSTOM CURSOR (rAF)
+         * ============================ */
+        let cursorRafRunning = false;
+        function updateCursorFrame() {
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+            cursorCircle.style.left = mouseX + 'px';
+            cursorCircle.style.top = mouseY + 'px';
+            cursorRafRunning = false;
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (!cursorRafRunning) {
+                cursorRafRunning = true;
+                requestAnimationFrame(updateCursorFrame);
+            }
+        });
+
+        /* ============================
+         *  PARALLAX (rAF-throttled)
+         * ============================ */
+        let parallaxRaf = false;
+        function updateParallax() {
+            const xOff = (mouseX / window.innerWidth - 0.5) * 15;
+            const yOff = (mouseY / window.innerHeight - 0.5) * 15;
+            const active = bgSlides[currentSlide];
+            if (active && active.classList.contains('active-bg')) {
+                // Apply translate on top of the Ken Burns scale
+                active.style.transform = `translate(${xOff}px, ${yOff}px)`;
+            }
+            parallaxRaf = false;
+        }
+        window.addEventListener('mousemove', () => {
+            if (!parallaxRaf) {
+                parallaxRaf = true;
+                requestAnimationFrame(updateParallax);
+            }
+        });
+
+        /* ============================
+         *  HOVER CURSOR EFFECT
+         * ============================ */
+        document.addEventListener('mouseover', (e) => {
+            const interactive = e.target.closest('a, button, .product-item, .client-item');
+            document.body.classList.toggle('cursor-hover', !!interactive);
+        });
+
+        /* ============================
+         *  NAV CLICKS
+         * ============================ */
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                goToSlide(parseInt(link.dataset.index));
+                // Close mobile menu
+                navLinksContainer.classList.remove('open');
+                hamburger.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // CTA buttons & any element with data-index
+        document.addEventListener('click', (e) => {
+            const el = e.target.closest('[data-index]');
+            if (el && !el.closest('.nav-links') && !el.closest('.slide-indicator')) {
+                e.preventDefault();
+                goToSlide(parseInt(el.dataset.index));
+            }
+        });
+
+        // Slide indicator dots
+        slideDots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                goToSlide(parseInt(dot.dataset.slide));
+            });
+        });
+
+        // Hamburger
+        hamburger.addEventListener('click', () => {
+            const isOpen = navLinksContainer.classList.toggle('open');
+            hamburger.classList.toggle('open');
+            hamburger.setAttribute('aria-expanded', isOpen);
+        });
+
+        /* ============================
+         *  WHEEL (debounced)
+         * ============================ */
+        window.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const now = Date.now();
+            if (now - lastWheelTime < COOLDOWN_MS) return;
+            if (Math.abs(e.deltaY) > 30) {
+                lastWheelTime = now;
+                goToSlide(currentSlide + (e.deltaY > 0 ? 1 : -1));
+            }
+        }, { passive: false });
+
+        /* ============================
+         *  KEYBOARD
+         * ============================ */
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); goToSlide(currentSlide + 1); }
+            if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); goToSlide(currentSlide - 1); }
+        });
+
+        /* ============================
+         *  TOUCH SWIPE
+         * ============================ */
+        let tStartY = 0, tStartX = 0;
+        window.addEventListener('touchstart', (e) => {
+            tStartY = e.changedTouches[0].screenY;
+            tStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        window.addEventListener('touchend', (e) => {
+            const dY = tStartY - e.changedTouches[0].screenY;
+            const dX = tStartX - e.changedTouches[0].screenX;
+            const dist = Math.max(Math.abs(dY), Math.abs(dX));
+            if (dist > 60) {
+                goToSlide(currentSlide + ((dY > 40 || dX > 40) ? 1 : -1));
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
